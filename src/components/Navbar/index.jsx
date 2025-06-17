@@ -2,7 +2,7 @@ import "./Navbar.css"
 import Logo from "../../assets/Logo"
 import { FaTimes } from "react-icons/fa";
 import { menu } from "../../data"
-import { Link } from "react-scroll"
+import { Link, animateScroll as scroll } from "react-scroll"
 import { FaArrowUpRightFromSquare, FaBarsStaggered } from "react-icons/fa6";
 import { useState } from "react";
 
@@ -10,13 +10,20 @@ const Navbar = () => {
   const [showSideBar, setShowSideBar] = useState(false);
 
   return (
-    <nav className="card flex__center">
-      <div className="flex__center logo">
+    <nav className="navbar card flex__center">
+      {showSideBar && (
+        <div className="aside__overlay"
+          onClick={() => setShowSideBar(!showSideBar)}
+        />)
+      }
+      <div className="flex__center logo"
+        onClick={scroll.scrollToTop({ duration: 500 })} >
         <Logo />
       </div>
-      <aside className="flex__center sidebar">
+      <aside className={`flex__center sidebar ${showSideBar && "visible"}`}>
         <div className="flex sidebar__top">
-          <span className="icon__container close__btn" onClick={() => setShowSideBar(!showSideBar)}>
+          <span className="icon__container close__btn"
+            onClick={() => setShowSideBar(!showSideBar)}>
             <FaTimes />
           </span>
         </div>
@@ -42,7 +49,7 @@ const Navbar = () => {
         </Link>
         <FaBarsStaggered className="menu" onClick={() => setShowSideBar(!showSideBar)} />
       </div>
-    </nav>
+    </nav >
   )
 }
 
